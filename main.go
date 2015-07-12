@@ -1,14 +1,20 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 )
 
+var commands Commands
+
 func CommandHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	fmt.Fprint(w, "Send a command!")
+	w.Header().Set("Content-Type", "application/vnd.application+json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(commands); err != nil {
+		panic(err)
+	}
 }
 
 func main() {

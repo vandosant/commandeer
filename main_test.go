@@ -21,6 +21,24 @@ func TestCommandReturns200(t *testing.T) {
 	}
 }
 
+func TestCommandReturnsCollectionJsonType(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://example.com/", nil)
+	if err != nil {
+		t.Errorf("Failed to create request.")
+	}
+
+	w := httptest.NewRecorder()
+	CommandHandler(w, req)
+
+	expected := "application/vnd.application+json; charset=UTF-8"
+
+	result := w.HeaderMap.Get("Content-Type")
+
+	if strings.Contains(result, expected) != true {
+		t.Errorf("response format incorrect: Actual %s, Expected: %s", result, expected)
+	}
+}
+
 func TestCommandReturnsCollectionJson(t *testing.T) {
 	req, err := http.NewRequest("GET", "http://example.com/", nil)
 	if err != nil {
@@ -30,9 +48,9 @@ func TestCommandReturnsCollectionJson(t *testing.T) {
 	w := httptest.NewRecorder()
 	CommandHandler(w, req)
 
-	expected := "application/json; charset=UTF-8"
+	expected := `{"collection":`
 
-	result := w.HeaderMap.Get("Content-Type")
+	result := w.Body.String()
 
 	if strings.Contains(result, expected) != true {
 		t.Errorf("response format incorrect: Actual %s, Expected: %s", result, expected)
