@@ -6,13 +6,12 @@ import (
 	"os"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Welcome!")
 }
 
-func CommandServer(w http.ResponseWriter, r *http.Request) {
+func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Send a command!")
-	w.WriteHeader(200)
 }
 
 func main() {
@@ -21,7 +20,10 @@ func main() {
 		port = "8080"
 	}
 
-	http.HandleFunc("/cmds", CommandServer)
+	http.HandleFunc("/", IndexHandler)
+	http.HandleFunc("/cmds", CommandHandler)
 
+	fmt.Printf("Now running on port %s\n", port)
 	http.ListenAndServe(":"+port, nil)
+
 }

@@ -15,7 +15,7 @@ func TestIndexReturnsText(t *testing.T) {
 		t.Errorf("Failed to create request.")
 	}
 
-	Index(recorder, req)
+	IndexHandler(recorder, req)
 
 	expected := "Welcome!"
 
@@ -33,7 +33,7 @@ func TestCmdsReturns200(t *testing.T) {
 	}
 
 	w := httptest.NewRecorder()
-	CommandServer(w, req)
+	CommandHandler(w, req)
 
 	if w.Code != 200 {
 		t.Errorf("response code incorrect: Actual %d, Expected: %s", w.Code, 200)
