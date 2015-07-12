@@ -6,11 +6,8 @@ import (
 	"os"
 )
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Welcome!")
-}
-
 func CommandHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	fmt.Fprint(w, "Send a command!")
 }
 
@@ -20,7 +17,7 @@ func main() {
 		port = "8080"
 	}
 
-	http.HandleFunc("/", IndexHandler)
+	http.HandleFunc("/", CommandHandler)
 	http.HandleFunc("/cmds", CommandHandler)
 
 	fmt.Printf("Now running on port %s\n", port)
