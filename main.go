@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/vandosant/commandeer/models"
 )
 
-var commands Commands
+var commands models.Commands
 
 func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/vnd.application+json; charset=UTF-8")

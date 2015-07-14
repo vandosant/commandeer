@@ -5,6 +5,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"encoding/json"
 )
 
 func TestCommandReturns200(t *testing.T) {
@@ -55,4 +56,27 @@ func TestCommandReturnsCollectionJson(t *testing.T) {
 	if strings.Contains(result, expected) != true {
 		t.Errorf("response format incorrect: Actual %s, Expected: %s", result, expected)
 	}
+}
+
+func TestCommandReturnsCommandCollection(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://example.com/", nil)
+	if err != nil {
+		t.Errorf("Failed to create request.")
+	}
+
+	w := httptest.NewRecorder()
+	CommandHandler(w, req)
+
+	v := struct {
+		Collection  string `json:"collection"`
+		Command []struct {
+			Name string `json:"name"`
+		} `json:"commands"`
+	}{}
+
+	if err := json.NewDecoder(w.Body).Decode(&v); err != nil {
+		t.Errorf("Should be able to unmarshal response.")
+	}
+
+	t.Log("Should be able to unmarshal response.")
 }
