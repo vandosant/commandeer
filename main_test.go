@@ -77,6 +77,4 @@ func TestCommandReturnsCommandCollection(t *testing.T) {
 	if err := json.NewDecoder(w.Body).Decode(&v); err != nil {
 		t.Errorf("Should be able to unmarshal response.")
 	}
-
-	t.Log("Should be able to unmarshal response.")
 }
