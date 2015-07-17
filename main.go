@@ -10,10 +10,15 @@ import (
 )
 
 var commands models.Commands
+var command models.Command
 
 func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/vnd.application+json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+
+	command.Name = "say"
+	commands.Commands = append(commands.Commands, command)
+
 	if err := json.NewEncoder(w).Encode(commands); err != nil {
 		panic(err)
 	}

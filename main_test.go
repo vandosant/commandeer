@@ -1,11 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"encoding/json"
 )
 
 func TestCommandReturns200(t *testing.T) {
@@ -68,13 +68,17 @@ func TestCommandReturnsCommandCollection(t *testing.T) {
 	CommandHandler(w, req)
 
 	v := struct {
-		Collection  string `json:"collection"`
-		Command []struct {
+		Collection string `json:"collection"`
+		Commands   []struct {
 			Name string `json:"name"`
 		} `json:"commands"`
 	}{}
 
 	if err := json.NewDecoder(w.Body).Decode(&v); err != nil {
 		t.Errorf("Should be able to unmarshal response.")
+	}
+
+	if v.Commands == nil {
+		t.Errorf("Should have Commands in the response. Actual: %s", v.Commands)
 	}
 }
