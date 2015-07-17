@@ -26,7 +26,6 @@ func main() {
 	}
 
 	http.HandleFunc("/", CommandHandler)
-	http.HandleFunc("/cmds", CommandHandler)
 
 	fmt.Printf("Now running on port %s\n", port)
 	http.ListenAndServe(":"+port, nil)
