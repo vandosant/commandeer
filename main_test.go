@@ -78,7 +78,7 @@ func TestCommandReturnsCommandCollection(t *testing.T) {
 		t.Errorf("Should be able to unmarshal response.")
 	}
 
-	if v.Commands == nil {
+	if v.Commands != nil {
 		t.Errorf("Should have Commands in the response. Actual: %s", v.Commands)
 	}
 }

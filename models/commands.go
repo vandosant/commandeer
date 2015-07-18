@@ -6,5 +6,5 @@ type Command struct {
 
 type Commands struct {
 	Collection string    `json:"collection"`
-	Commands   []Command `json:"commands"`
+	CommandList   []Command `json:"commands"`
 }
