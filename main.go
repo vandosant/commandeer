@@ -14,11 +14,15 @@ var commands models.Commands
 func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/vnd.application+json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	c := models.Command{Name: "say"}
-	commands.CommandList = append(commands.CommandList, c)
-	commands.Collection = "name"
 
-	if err := json.NewEncoder(w).Encode(commands); err != nil {
+	c := models.Commands{
+		Collection: "name",
+		CommandList: []models.Command{
+			{"say"},
+		},
+	}
+
+	if err := json.NewEncoder(w).Encode(c); err != nil {
 		panic(err)
 	}
 }
