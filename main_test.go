@@ -81,4 +81,8 @@ func TestCommandReturnsCommandCollection(t *testing.T) {
 	if v.Commands == nil {
 		t.Errorf("Should have Commands in the response. Actual: %s", v.Commands)
 	}
+
+	if v.Collection != "name" {
+		t.Errorf("Should have Collection in the response. Actual: %s", v.Collection)
+	}
 }

@@ -16,6 +16,7 @@ func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	c := models.Command{"say"}
 	commands.CommandList = append(commands.CommandList, c)
+	commands.Collection = "name"
 
 	if err := json.NewEncoder(w).Encode(commands); err != nil {
 		panic(err)
