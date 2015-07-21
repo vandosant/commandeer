@@ -14,7 +14,7 @@ var commands models.Commands
 func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/vnd.application+json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	c := models.Command{"say"}
+	c := models.Command{Name: "say"}
 	commands.CommandList = append(commands.CommandList, c)
 	commands.Collection = "name"
 
