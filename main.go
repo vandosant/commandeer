@@ -31,13 +31,18 @@ func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func SayHandler(w http.ResponseWriter, r * http.Request) {
+func SayHandler(w http.ResponseWriter, r *http.Request) {
 	args := []byte{}
+	if r.Body == nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	_, err := r.Body.Read(args)
 	if err != nil {
 		panic(err)
+		return
 	}
-	fmt.Println(args)
 }
 
 func main() {

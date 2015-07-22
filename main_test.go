@@ -1,12 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"bytes"
 )
 
 func TestCommandReturns200(t *testing.T) {
@@ -99,5 +99,19 @@ func TestSayAcceptsParams(t *testing.T) {
 
 	if w.Code != 200 {
 		t.Errorf("Expected", 200, "Got", w.Code)
+	}
+}
+
+func TestSayValidatesParams(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://example.com/say", nil)
+	if err != nil {
+		t.Errorf("Failed to create request.")
+	}
+
+	w := httptest.NewRecorder()
+	SayHandler(w, req)
+
+	if w.Code != 400 {
+		t.Errorf("Expected", 400, "Got", w.Code)
 	}
 }
