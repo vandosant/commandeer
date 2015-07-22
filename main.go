@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"os/exec"
 
 	"github.com/vandosant/commandeer/models"
 )
@@ -23,11 +22,10 @@ func CommandHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	cmd := exec.Command("say", "hello")
-	err := cmd.Run()
-	if err != nil {
-		panic(err)
+	for _, v := range c.CommandList {
+		v.Command()
 	}
+
 	if err := json.NewEncoder(w).Encode(c); err != nil {
 		panic(err)
 	}
