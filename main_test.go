@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"bytes"
 )
 
 func TestCommandReturns200(t *testing.T) {
@@ -84,5 +85,19 @@ func TestCommandReturnsCommandCollection(t *testing.T) {
 
 	if v.Collection != "name" {
 		t.Errorf("Should have Collection in the response. Actual: %s", v.Collection)
+	}
+}
+
+func TestSayAcceptsParams(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://example.com/say", bytes.NewBufferString("hello"))
+	if err != nil {
+		t.Errorf("Failed to create request.")
+	}
+
+	w := httptest.NewRecorder()
+	SayHandler(w, req)
+
+	if w.Code != 200 {
+		t.Errorf("Expected", 200, "Got", w.Code)
 	}
 }

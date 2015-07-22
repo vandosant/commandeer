@@ -31,6 +31,15 @@ func CommandHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+func SayHandler(w http.ResponseWriter, r * http.Request) {
+	args := []byte{}
+	_, err := r.Body.Read(args)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(args)
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
