@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -84,5 +85,33 @@ func TestCommandReturnsCommandCollection(t *testing.T) {
 
 	if v.Collection != "name" {
 		t.Errorf("Should have Collection in the response. Actual: %s", v.Collection)
+	}
+}
+
+func TestSayAcceptsParams(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://example.com/say", bytes.NewBufferString("hello"))
+	if err != nil {
+		t.Errorf("Failed to create request.")
+	}
+
+	w := httptest.NewRecorder()
+	SayHandler(w, req)
+
+	if w.Code != 200 {
+		t.Errorf("Expected", 200, "Got", w.Code)
+	}
+}
+
+func TestSayValidatesParams(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://example.com/say", nil)
+	if err != nil {
+		t.Errorf("Failed to create request.")
+	}
+
+	w := httptest.NewRecorder()
+	SayHandler(w, req)
+
+	if w.Code != 400 {
+		t.Errorf("Expected", 400, "Got", w.Code)
 	}
 }

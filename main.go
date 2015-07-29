@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 
 	"github.com/vandosant/commandeer/models"
 	"gopkg.in/mgo.v2"
@@ -26,9 +25,6 @@ var (
 )
 
 func CommandHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/vnd.application+json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-
 	c := models.Commands{
 		Collection: "name",
 		CommandList: []models.Command{
@@ -36,13 +32,29 @@ func CommandHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	cmd := exec.Command("say", "hello")
-	err := cmd.Run()
-	if err != nil {
-		panic(err)
+	for _, v := range c.CommandList {
+		v.Command()
 	}
+
 	if err := json.NewEncoder(w).Encode(c); err != nil {
 		panic(err)
+	}
+
+	w.Header().Set("Content-Type", "application/vnd.application+json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
+
+func SayHandler(w http.ResponseWriter, r *http.Request) {
+	args := []byte{}
+	if r.Body == nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	_, err := r.Body.Read(args)
+	if err != nil {
+		panic(err)
+		return
 	}
 }
 
